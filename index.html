@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jonathan Bernhard Göllner GTM Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Mistral Design Tokens ─── */
+    :root {
+      --bg:          #ffffff;
+      --bg-warm:     #faf9f7;
+      --bg-card:     #f5f4f1;
+      --text:        #0a0a0a;
+      --text-2:      #555555;
+      --text-3:      #999999;
+      --border:      #e8e7e4;
+      --border-2:    #d4d3cf;
+      --grad: linear-gradient(90deg,#FFD800,#FFAF00,#FF8205,#FA500F,#E10500);
+      --orange:      #FF8205;
+      --red:         #E10500;
+      --radius:      0px;
+      --radius-sm:   0px;
+    }
+
+    /* ─── Reset ─── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+
+    /* ─── Gradient bar ─── */
+    .grad-bar{height:3px;background:var(--grad)}
+
+    /* ─── Nav ─── */
+    nav{position:fixed;top:3px;left:0;right:0;z-index:100;transition:background .4s,border-color .4s,opacity .45s,transform .45s;border-bottom:1px solid transparent;opacity:0;transform:translateY(-100%);pointer-events:none}
+    nav.nav-scrolled{opacity:1;transform:translateY(0);pointer-events:auto;background:rgba(255,255,255,0.95);backdrop-filter:blur(18px);border-bottom-color:var(--border)}
+    section{scroll-margin-top:68px}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:0 32px;height:58px}
+    .nav-logo{font-size:15px;font-weight:600;letter-spacing:-.02em;transition:color .4s}
+    nav:not(.nav-scrolled) .nav-logo{color:#ffffff}
+    .nav-links{display:flex;gap:28px;list-style:none}
+    .nav-links a{font-size:13px;transition:color .15s}
+    nav.nav-scrolled .nav-links a{color:var(--text-2)}
+    nav.nav-scrolled .nav-links a:hover{color:var(--text)}
+    nav:not(.nav-scrolled) .nav-links a{color:rgba(255,255,255,0.5)}
+    nav:not(.nav-scrolled) .nav-links a:hover{color:#fff}
+    .nav-cta{font-size:13px;font-weight:500;padding:7px 18px;transition:background .4s,color .4s,opacity .2s}
+    nav.nav-scrolled .nav-cta{background:var(--text);color:#fff}
+    nav:not(.nav-scrolled) .nav-cta{background:transparent;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.2)}
+    .nav-cta:hover{opacity:.82}
+
+    /* ─── Container ─── */
+    .container{max-width:1100px;margin:0 auto;padding:0 32px}
+
+    /* ─── Gradient text ─── */
+    .grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* ─── Tags (used outside hero too) ─── */
+    .tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border-2);color:var(--text-2)}
+    .tag.live{border-color:#c8e6c9;color:#2e7d32;background:#f1f8e9}
+    .tag.orange{border-color:#ffe0b2;color:#e65100;background:#fff8f0}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:12px 24px;background:var(--grad);color:#fff;transition:opacity .2s,transform .15s}
+    .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+    .btn-secondary{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:12px 24px;border:1.5px solid var(--border-2);color:var(--text-2);transition:border-color .2s,color .2s}
+    .btn-secondary:hover{border-color:#aaa;color:var(--text)}
+
+    /* ─── Hero — Dogstudio style ─── */
+    .hero{
+      min-height:calc(100vh - 3px);
+      background:#060609;
+      display:flex;
+      flex-direction:column;
+      padding:0;
+      border-bottom:none;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Atmospheric gradient blobs */
+    .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .hero-blob{position:absolute;border-radius:50%;filter:blur(100px);will-change:transform;animation:blob-drift 22s ease-in-out infinite}
+    .hero-blob-1{width:750px;height:750px;background:radial-gradient(circle,rgba(88,20,210,.5) 0%,transparent 65%);top:-280px;left:-220px}
+    .hero-blob-2{width:580px;height:580px;background:radial-gradient(circle,rgba(8,80,210,.38) 0%,transparent 65%);top:80px;right:-160px;animation-delay:-9s;animation-direction:reverse}
+    .hero-blob-3{width:480px;height:480px;background:radial-gradient(circle,rgba(240,80,5,.25) 0%,transparent 65%);bottom:-80px;right:80px;animation-delay:-16s}
+    .hero-blob-4{width:380px;height:380px;background:radial-gradient(circle,rgba(0,140,180,.2) 0%,transparent 65%);bottom:60px;left:100px;animation-delay:-5s;animation-direction:reverse}
+    @keyframes blob-drift{
+      0%,100%{transform:translate(0,0) scale(1)}
+      25%{transform:translate(55px,45px) scale(1.07)}
+      50%{transform:translate(-45px,75px) scale(.93)}
+      75%{transform:translate(75px,-35px) scale(1.09)}
+    }
+
+    /* Noise grain overlay */
+    .hero-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+
+    /* Inner layout */
+    .hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;min-height:calc(100vh - 3px);max-width:1100px;margin:0 auto;padding:0 32px}
+    .hero-center{flex:1;display:flex;align-items:center;justify-content:flex-end;padding:40px 0}
+    .hero-name-corner{position:absolute;top:24px;left:32px;font-size:14px;font-weight:600;color:#ffffff;letter-spacing:-.01em;z-index:3}
+
+    /* Display type — Playfair Display serif */
+    .hero-display{display:block;text-align:right}
+    .hero-word{
+      display:block;
+      font-family:'Playfair Display',Georgia,serif;
+      font-size:clamp(58px,10.2vw,148px);
+      font-weight:700;
+      letter-spacing:-0.025em;
+      line-height:0.92;
+      color:#ffffff;
+      white-space:nowrap;
+    }
+    .hero-line-2{
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-end;
+      font-family:'Playfair Display',Georgia,serif;
+      font-size:clamp(58px,10.2vw,148px);
+      font-weight:700;
+      letter-spacing:-0.025em;
+      line-height:0.92;
+      margin-top:0.06em;
+    }
+
+    /* GTM morph */
+    .gtm-morph{display:inline-block;position:relative;overflow:hidden;transition:width .72s cubic-bezier(.16,1,.3,1)}
+    .gtm-abbr,.gtm-full{
+      display:block;
+      background:var(--grad);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      white-space:nowrap;
+      transition:opacity .42s ease,transform .65s cubic-bezier(.16,1,.3,1);
+    }
+    .gtm-full{position:absolute;top:0;left:0;opacity:0;transform:translateY(16px)}
+    .gtm-morph.expanded .gtm-abbr{opacity:0;transform:translateY(-16px)}
+    .gtm-morph.expanded .gtm-full{opacity:1;transform:translateY(0)}
+
+
+    /* ─── Section base ─── */
+    section{padding:88px 0}
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+    .section-title{font-size:clamp(26px,3.5vw,38px);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px}
+    .section-sub{font-size:15px;color:var(--text-2);max-width:520px;line-height:1.75}
+    .section-header{margin-bottom:52px}
+
+    /* ─── Workflow tabs ─── */
+    .wf-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0}
+    .wf-tab{display:flex;align-items:center;gap:10px;padding:12px 20px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-weight:500;color:var(--text-2);cursor:pointer;transition:all .2s;text-align:left}
+    .wf-tab:hover{border-color:var(--border-2);color:var(--text)}
+    .wf-tab.active{border-color:var(--orange);color:var(--text);background:var(--bg);box-shadow:0 0 0 1px var(--orange)}
+    .wf-tab-num{font-size:11px;font-weight:700;color:var(--text-3);font-variant-numeric:tabular-nums}
+    .wf-tab.active .wf-tab-num{color:var(--orange)}
+    .wf-tab-name{font-weight:500}
+    .wf-panels{margin-top:16px}
+    .wf-panel{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .wf-panel-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 24px;background:var(--bg-warm);border-bottom:1px solid var(--border);flex-wrap:wrap}
+    .wf-panel-title{font-size:16px;font-weight:600;letter-spacing:-.015em}
+    .wf-panel-sub{font-size:13px;color:var(--text-2);margin-top:2px}
+    .wf-panel-placeholder{padding:80px 32px;text-align:center;font-size:14px;color:var(--text-3);background:var(--bg-warm)}
+
+    /* ─── Build section ─── */
+    .build-layout{display:grid;grid-template-columns:1fr 340px;gap:64px;align-items:center}
+    .wf-loop-labels{display:flex;flex-direction:column;gap:8px;margin-top:28px}
+    .wf-label{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-2);font-weight:500}
+    .build-anim{display:flex;justify-content:center;align-items:center}
+    .loop-node{cursor:default}
+    .gtm-canvas-wrap{width:340px;height:340px;overflow:hidden;background:#faf9f7;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 24px 48px rgba(0,0,0,.10)}
+    .wf-label-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0}
+
+    /* ─── Deploy section ─── */
+    .tl-wrap{margin-bottom:64px}
+    .tl-track{display:flex;align-items:center;gap:0}
+    .tl-node{display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+    .tl-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--border-2);background:var(--bg);transition:border-color .3s,background .3s,box-shadow .3s}
+    .tl-node.active .tl-dot{border-color:var(--orange);background:var(--orange);box-shadow:0 0 0 4px rgba(255,130,5,.15)}
+    .tl-lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);transition:color .3s;white-space:nowrap}
+    .tl-node.active .tl-lbl{color:var(--orange)}
+    .tl-line{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden}
+    .tl-line-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--grad);transition:width .6s ease}
+    .tl-line.filled .tl-line-fill{width:100%}
+
+    .phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:64px}
+    .phase-card{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--bg);transition:border-color .3s,box-shadow .3s;opacity:.55;transition:opacity .4s,border-color .3s,box-shadow .3s}
+    .phase-card.active{opacity:1;border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+    .phase-card:hover{opacity:1}
+    .phase-range{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);display:block;margin-bottom:10px}
+    .phase-title{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px;color:var(--text);line-height:1.3}
+    .phase-output{font-size:11.5px;font-weight:600;color:var(--text-2);background:var(--bg-card);border:1px solid var(--border);padding:6px 10px;border-radius:var(--radius-sm);margin-bottom:16px;line-height:1.4}
+    .phase-bullets{list-style:none;display:flex;flex-direction:column;gap:7px}
+    .phase-bullets li{font-size:12.5px;color:var(--text-2);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+    .phase-bullets li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:6px}
+
+    .identity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:64px}
+    .identity-item{display:flex;flex-direction:column;gap:10px}
+    .identity-cross{font-size:12px;color:var(--text-3);text-decoration:line-through;font-weight:500}
+    .identity-arrow{font-size:18px;color:var(--orange);font-weight:300;line-height:1}
+    .identity-truth{font-size:14px;font-weight:600;color:var(--text);line-height:1.5;letter-spacing:-.01em}
+
+    .delta-wrap{background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--radius);padding:36px 40px}
+    .delta-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:24px}
+    .delta-grid{display:grid;grid-template-columns:1fr 1px 1fr;gap:40px;align-items:start}
+    .delta-col .delta-label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+    .delta-col.before .delta-label{color:#aaa}
+    .delta-col.after .delta-label{color:var(--orange)}
+    .delta-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .delta-list li{font-size:13.5px;color:var(--text-2);display:flex;align-items:flex-start;gap:10px;line-height:1.55}
+    .delta-col.before .delta-list li::before{content:'–';color:#ccc;font-weight:600;flex-shrink:0}
+    .delta-col.after .delta-list li::before{content:'→';color:var(--orange);font-weight:600;flex-shrink:0}
+    .delta-divider{background:var(--border);height:100%}
+
+    /* ─── About section ─── */
+    .about-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .about-name{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.035em;line-height:1.1;margin-bottom:20px}
+    .about-text{font-size:15px;color:var(--text-2);line-height:1.8;max-width:480px}
+    .about-links{display:flex;flex-direction:column;gap:4px}
+    .about-link{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;color:var(--text-2);padding:10px 0;border-bottom:1px solid var(--border);transition:color .15s}
+    .about-link:hover{color:var(--text)}
+    .about-link-arr{opacity:.35;transition:opacity .15s,transform .2s}
+    .about-link:hover .about-link-arr{opacity:1;transform:translateX(4px)}
+
+    /* ─── Tools section ─── */
+    .tools-section{background:var(--bg-warm);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+    .tool-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:border-color .15s,box-shadow .15s;cursor:default}
+    .tool-card:hover{border-color:var(--border-2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .tool-logo{width:36px;height:36px;object-fit:contain}
+    .tool-name{font-size:11px;font-weight:500;color:var(--text-2);text-align:center;line-height:1.3}
+
+    /* ─── Pillars ─── */
+    .pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .pillar{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;gap:14px;transition:background .2s}
+    .pillar:hover{background:var(--bg-warm)}
+    .pillar-icon{width:38px;height:38px;border-radius:var(--radius-sm);background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:17px}
+    .pillar-title{font-size:16px;font-weight:600;letter-spacing:-.015em}
+    .pillar-desc{font-size:13px;color:var(--text-2);line-height:1.7}
+    .pillar-features{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:4px}
+    .pillar-features li{font-size:12.5px;color:var(--text-2);display:flex;align-items:flex-start;gap:7px}
+    .pillar-features li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:7px}
+
+    /* ─── Results ─── */
+    .results-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .result-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:16px;transition:border-color .2s,box-shadow .15s}
+    .result-card:hover{border-color:var(--border-2);box-shadow:0 2px 12px rgba(0,0,0,.05)}
+    .result-card.featured{grid-column:1/-1;background:var(--bg-warm)}
+    .result-metric{font-size:40px;font-weight:700;letter-spacing:-.04em}
+    .result-title{font-size:15px;font-weight:600;margin-bottom:6px}
+    .result-desc{font-size:13px;color:var(--text-2);line-height:1.7}
+    .result-stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+    .chip{font-size:11px;font-weight:500;padding:3px 8px;background:var(--bg-card);border:1px solid var(--border);color:var(--text-2)}
+    .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-top:20px;border-top:1px solid var(--border)}
+    .result-stat-val{font-size:22px;font-weight:700;letter-spacing:-.03em}
+    .result-stat-lbl{font-size:12px;color:var(--text-2);margin-top:2px}
+
+    /* ─── Process ─── */
+    .process-list{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .process-item{display:grid;grid-template-columns:88px 1fr;gap:20px;padding:24px 28px;border-bottom:1px solid var(--border);background:var(--bg);transition:background .15s}
+    .process-item:last-child{border-bottom:none}
+    .process-item:hover{background:var(--bg-warm)}
+    .process-week{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);padding-top:3px}
+    .process-title{font-size:14px;font-weight:600;margin-bottom:3px}
+    .process-desc{font-size:13px;color:var(--text-2)}
+
+    /* ─── Compare ─── */
+    .compare-wrapper{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .compare-table{width:100%;border-collapse:collapse}
+    .compare-table th,.compare-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table thead th{background:var(--bg-warm);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+    .compare-table thead th.hl{color:var(--orange)}
+    .compare-table tbody tr{background:var(--bg)}
+    .compare-table tbody tr:hover{background:var(--bg-warm)}
+    .compare-table td:first-child{color:var(--text-2)}
+    .compare-table td.hl{color:var(--text);font-weight:500}
+    .yes{color:#2e7d32;font-weight:600}
+    .no{color:#bbb}
+    .partial{color:#999}
+
+    /* ─── Contact ─── */
+    .contact-section{background:var(--bg-warm);border-top:1px solid var(--border);text-align:center;padding:96px 0;position:relative;overflow:hidden}
+    .contact-section::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse at center,rgba(255,130,5,.08) 0%,transparent 70%);pointer-events:none}
+    .contact-title{font-size:clamp(30px,4.5vw,48px);font-weight:700;letter-spacing:-.035em;line-height:1.1;margin-bottom:14px}
+    .contact-sub{font-size:15px;color:var(--text-2);margin-bottom:36px}
+    .contact-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+    .contact-meta{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:36px}
+    .contact-meta-item{font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:6px}
+
+    /* ─── Footer ─── */
+    footer{border-top:1px solid var(--border);padding:28px 0}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .footer-copy{font-size:12px;color:var(--text-3)}
+    .footer-links{display:flex;gap:20px}
+    .footer-links a{font-size:12px;color:var(--text-3);transition:color .15s}
+    .footer-links a:hover{color:var(--text-2)}
+
+    /* ─── Reveal ─── */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ─── Responsive ─── */
+    @media(max-width:768px){
+      .container{padding:0 20px}
+      .nav-links{display:none}
+      .hero-inner{padding:0 20px}
+      .hero-bottom{flex-direction:column;align-items:flex-start;gap:20px;padding-bottom:36px}
+      .hero-bottom-links{flex-wrap:wrap}
+      .results-grid{grid-template-columns:1fr}
+      .result-card.featured{grid-column:1}
+      .result-stats{grid-template-columns:repeat(3,1fr)}
+      .tools-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr))}
+      .build-layout{grid-template-columns:1fr;gap:36px}
+      .gtm-canvas-wrap{width:280px;height:280px}
+      .wf-nav{flex-direction:column}
+      .wf-tab{width:100%}
+      .wf-panel-header{flex-direction:column;align-items:flex-start}
+      .phase-grid{grid-template-columns:repeat(2,1fr)}
+      .identity-grid{grid-template-columns:1fr}
+      .delta-grid{grid-template-columns:1fr;gap:28px}
+      .delta-divider{display:none}
+      .about-layout{grid-template-columns:1fr;gap:40px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="grad-bar"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Jonathan Bernhard Göllner</div>
+    <ul class="nav-links">
+      <li><a href="#build">What I Build</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#workflows">Workflows</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+
+  <!-- Atmospheric background blobs -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-blob hero-blob-4"></div>
+  </div>
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div class="hero-inner">
+    <div class="hero-name-corner">Jonathan Bernhard Göllner</div>
+    <div class="hero-center">
+      <div class="hero-display">
+        <span class="hero-word">I</span>
+        <span class="hero-word">Build</span>
+        <span class="hero-word">Real</span>
+        <span class="hero-line-2">
+          <span class="gtm-morph" id="gtm-morph">
+            <span class="gtm-abbr">GTM</span>
+            <span class="gtm-full">Go To Market</span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tools I Can Use -->
+<section id="tools" class="tools-section" style="padding:72px 0">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Toolbox</div>
+      <h2 class="section-title">Tools I work with</h2>
+      <p class="section-sub">100+ GTM tools across outbound, enrichment, CRM, automation, analytics, and content.</p>
+    </div>
+    <div class="tools-grid reveal">
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901e01593373b5f4328fa86_clay.png" alt="Clay" loading="lazy"><span class="tool-name">Clay</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/693151f24b9c78b6c48e8e18_hubspot.png" alt="HubSpot" loading="lazy"><span class="tool-name">HubSpot</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d50c0cce34df06ffa7b4_apollo.png" alt="Apollo.io" loading="lazy"><span class="tool-name">Apollo.io</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901ded4533d26062aa431e6_n8n.png" alt="N8N" loading="lazy"><span class="tool-name">N8N</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6939788df4e7ef58ad47cf19_salesforce.png" alt="Salesforce" loading="lazy"><span class="tool-name">Salesforce</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692b10cf41ea5800f1f8ca5b_attio.png" alt="Attio" loading="lazy"><span class="tool-name">Attio</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/694a5e8fc3c746721649f2a2_pipedrive.png" alt="Pipedrive" loading="lazy"><span class="tool-name">Pipedrive</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901e00adec4c31ec034cfeb_instantly.png" alt="Instantly" loading="lazy"><span class="tool-name">Instantly</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901dffdc86c5a152968e7a6_heyreach.png" alt="HeyReach" loading="lazy"><span class="tool-name">HeyReach</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901dff3d49a391aeee397fa_findymail.png" alt="Findymail" loading="lazy"><span class="tool-name">Findymail</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901dfeb6a6ed7986becbfb8_bettercontact.png" alt="BetterContact" loading="lazy"><span class="tool-name">BetterContact</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901dee93c2e4d74141cf5bb_sybill.png" alt="Sybill" loading="lazy"><span class="tool-name">Sybill</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6998383bedfa43cdd5ee3152_nooks.png" alt="Nooks" loading="lazy"><span class="tool-name">Nooks</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69496905dd900c4dce17274a_aircall.png" alt="Aircall" loading="lazy"><span class="tool-name">Aircall</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac658d504f0dca35dc3e5_Outreach.png" alt="Outreach" loading="lazy"><span class="tool-name">Outreach</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac67fac10169e248b02c3_Salesloft.svg" alt="Salesloft" loading="lazy"><span class="tool-name">Salesloft</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d683b129e65fe832607f_Lavendar.png" alt="Lavender" loading="lazy"><span class="tool-name">Lavender</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/693979473635627470c0f3b9_Distribute.jpeg" alt="Distribute" loading="lazy"><span class="tool-name">Distribute</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69493499fbcb77cb8e0a1b4d_zapier.png" alt="Zapier" loading="lazy"><span class="tool-name">Zapier</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929da968d89d814e7cc1729_Amplitude.png" alt="Amplitude" loading="lazy"><span class="tool-name">Amplitude</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929dace4088dc0eb53e268d_Intercom.svg" alt="Intercom" loading="lazy"><span class="tool-name">Intercom</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/696a75c5c9ff59afb5a47c34_userpilot.jpeg" alt="UserPilot" loading="lazy"><span class="tool-name">UserPilot</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a7db8042f850b65900f58_Customer.png" alt="Customer.io" loading="lazy"><span class="tool-name">Customer.io</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69397d6478c312a0e9e5bd76_Champify.jpeg" alt="Champify" loading="lazy"><span class="tool-name">Champify</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d75b4de19bde1605b2c4_Notion.png" alt="Notion" loading="lazy"><span class="tool-name">Notion</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad9203ff4715fc2ae7389_Cal.png" alt="Cal.com" loading="lazy"><span class="tool-name">Cal.com</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929db3bdbdcfbfb7b522b0d_Chili%20Piper.svg" alt="Chili Piper" loading="lazy"><span class="tool-name">Chili Piper</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d606110dc70eccd5d9af_linkedin.png" alt="LinkedIn" loading="lazy"><span class="tool-name">LinkedIn</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6953d5542c90c528b0591b53_buffer.svg" alt="Buffer" loading="lazy"><span class="tool-name">Buffer</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a7d94090ddaf2749f6d82_beehiiv.jpeg" alt="Beehiiv" loading="lazy"><span class="tool-name">Beehiiv</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69493e2b5bdba85c89cb6214_rb2bb.avif" alt="RB2B" loading="lazy"><span class="tool-name">RB2B</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692bd5d4bc5e04cdf40719f3_albacross.webp" alt="Albacross" loading="lazy"><span class="tool-name">Albacross</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad90b222c3fc883217e24_Tally.png" alt="Tally" loading="lazy"><span class="tool-name">Tally</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6931527a2b9a1f7c0a2ca0a9_claude.png" alt="Claude" loading="lazy"><span class="tool-name">Claude</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/693995b3f38017a208a1b25d_chatgpt.webp" alt="ChatGPT" loading="lazy"><span class="tool-name">ChatGPT</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a7d6eb8231df04747da46_Gamma.png" alt="Gamma" loading="lazy"><span class="tool-name">Gamma</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac5c0ed5cc8064c524e16_figma.webp" alt="Figma" loading="lazy"><span class="tool-name">Figma</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a7d046752e547e49ddf80_Webflow.jpeg" alt="Webflow" loading="lazy"><span class="tool-name">Webflow</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d646e38eb0545a7de9e7_zoominfo.png" alt="ZoomInfo" loading="lazy"><span class="tool-name">ZoomInfo</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad4fe2420eccbf0ebc15a_Cognism.png" alt="Cognism" loading="lazy"><span class="tool-name">Cognism</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad350662298ea56debc2e_Crunchbase.avif" alt="Crunchbase" loading="lazy"><span class="tool-name">Crunchbase</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad3320c30b12ea726dcf4_Ahrefs.png" alt="Ahrefs" loading="lazy"><span class="tool-name">Ahrefs</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad3027bddf5c8a346ae5f_Similarweb.png" alt="Similarweb" loading="lazy"><span class="tool-name">Similarweb</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad2bf4b778035251b9226_PhantomBuster.svg" alt="PhantomBuster" loading="lazy"><span class="tool-name">PhantomBuster</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad23d1c162bfa6395ef31_Apify.svg" alt="Apify" loading="lazy"><span class="tool-name">Apify</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad2921fab07d46ee2993b_ZenRows.png" alt="ZenRows" loading="lazy"><span class="tool-name">ZenRows</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad1aba1691be0f02c2644_Amplemarket.svg" alt="Amplemarket" loading="lazy"><span class="tool-name">Amplemarket</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a81331608259b0815c82c_LoneScale.png" alt="LoneScale" loading="lazy"><span class="tool-name">LoneScale</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a8161d31f195460ed27df_BuiltWith.png" alt="BuiltWith" loading="lazy"><span class="tool-name">BuiltWith</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad14cc6c03f1638a9ccba_TheirStack.webp" alt="TheirStack" loading="lazy"><span class="tool-name">TheirStack</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad1879043883991f7aefc_PredictLeads.png" alt="PredictLeads" loading="lazy"><span class="tool-name">PredictLeads</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac6a1a6520deafb99d72c_Crossbeam.png" alt="Crossbeam" loading="lazy"><span class="tool-name">Crossbeam</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac6c3fa6b545899ee2250_PartnerStack.svg" alt="PartnerStack" loading="lazy"><span class="tool-name">PartnerStack</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692d22cf95dc8f804174458e_Teamfluence.png" alt="Teamfluence" loading="lazy"><span class="tool-name">Teamfluence</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac763662298ea56dd6cf5_The%20Swarm.png" alt="The Swarm" loading="lazy"><span class="tool-name">The Swarm</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad649416f74e9476c5b01_G2.png" alt="G2" loading="lazy"><span class="tool-name">G2</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69397d07a331b1089b4a37a2_Capterra.svg" alt="Capterra" loading="lazy"><span class="tool-name">Capterra</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/693978f9f68910372233de7f_Mixpanel-removebg-preview.png" alt="Mixpanel" loading="lazy"><span class="tool-name">Mixpanel</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/696a757f552bf4a28c84826e_parabola.jpeg" alt="Parabola" loading="lazy"><span class="tool-name">Parabola</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d7a1623300fab8e6a92e_Substack.png" alt="Substack" loading="lazy"><span class="tool-name">Substack</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69311e1291be7fbd8af1f9c4_slack.png" alt="Slack" loading="lazy"><span class="tool-name">Slack</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6961f3c4e2423ef1b277c2f7_cursor.png" alt="Cursor" loading="lazy"><span class="tool-name">Cursor</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6961f45600fdcab9621cc963_lovable.png" alt="Lovable" loading="lazy"><span class="tool-name">Lovable</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6931bb735769533cdba8d1b2_ocean.png" alt="Ocean.io" loading="lazy"><span class="tool-name">Ocean.io</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad3bc03603f0ff8afb603_PitchBook.png" alt="Pitchbook" loading="lazy"><span class="tool-name">Pitchbook</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/693981004ffe41cf6f5803f5_perplexity.png" alt="Perplexity" loading="lazy"><span class="tool-name">Perplexity</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6901dfc1daeaa188350674d7_warmly.png" alt="Warmly" loading="lazy"><span class="tool-name">Warmly</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/69311e474d3421ebe7930336_calendly.webp" alt="Calendly" loading="lazy"><span class="tool-name">Calendly</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/696a74cb23e976f2b7b15695_rudderstack.jpg" alt="Rudderstack" loading="lazy"><span class="tool-name">Rudderstack</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/696a753f6b501f27da88ef93_activecampaign.avif" alt="ActiveCampaign" loading="lazy"><span class="tool-name">ActiveCampaign</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6953d44e8f783f3921422237_favikon.jpeg" alt="Favikon" loading="lazy"><span class="tool-name">Favikon</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ac7fc0eef9615013a9c5e_Fibbler.png" alt="Fibbler" loading="lazy"><span class="tool-name">Fibbler</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692ad1879043883991f7aefc_PredictLeads.png" alt="Seam AI" loading="lazy"><span class="tool-name">Seam AI</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/6929d95c12b854d3d8e2c0c4_default.jpeg" alt="Default" loading="lazy"><span class="tool-name">Default</span></div>
+      <div class="tool-card"><img class="tool-logo" src="https://cdn.prod.website-files.com/68a453ace0b306215f3305cc/692a7f760fe34a46a4b7e69e_OutboundSync.webp" alt="OutboundSync" loading="lazy"><span class="tool-name">OutboundSync</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Workflows -->
+<section id="workflows" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Workflows</div>
+      <h2 class="section-title">GTM systems by industry.</h2>
+      <p class="section-sub">Each workflow is custom-built for a specific market, buyer journey, and sales motion. Click any industry to explore the system.</p>
+    </div>
+
+    <!-- Workflow selector -->
+    <div class="wf-nav reveal">
+      <button class="wf-tab active" data-idx="0">
+        <span class="wf-tab-num">01</span>
+        <span class="wf-tab-name">Private Real Estate Lender</span>
+      </button>
+      <button class="wf-tab" data-idx="1">
+        <span class="wf-tab-num">02</span>
+        <span class="wf-tab-name">Franchise Development</span>
+      </button>
+      <button class="wf-tab" data-idx="2">
+        <span class="wf-tab-num">03</span>
+        <span class="wf-tab-name">B2B SaaS Hybrid PLG + Sales Assist</span>
+      </button>
+      <button class="wf-tab" data-idx="3">
+        <span class="wf-tab-num">04</span>
+        <span class="wf-tab-name">Commercial Insurance Brokerage</span>
+      </button>
+      <button class="wf-tab" data-idx="4">
+        <span class="wf-tab-num">05</span>
+        <span class="wf-tab-name">M&amp;A Advisory</span>
+      </button>
+      <button class="wf-tab" data-idx="5">
+        <span class="wf-tab-num">06</span>
+        <span class="wf-tab-name">Med Spa / Clinic</span>
+      </button>
+    </div>
+
+    <!-- Callout -->
+    <div class="reveal" style="margin-top:32px;margin-bottom:20px;padding:22px 28px;background:linear-gradient(135deg,#fff8f0,#fff3e6);border-left:3px solid var(--orange);border-top:1px solid #FFD0A0;border-right:1px solid #FFD0A0;border-bottom:1px solid #FFD0A0;">
+      <p style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em">These systems don't need to be this complex to start.</p>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.7">Most GTM systems can be deployed with the tools you're already using. The workflows shown here represent full-scale architecture. I'll advise on additional tools only if research confirms they'll meaningfully move the outcome you're after.</p>
+    </div>
+
+    <!-- Embed panel -->
+    <div class="wf-panels reveal">
+      <div class="wf-panel active" data-idx="0">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">Private Real Estate Lender</div>
+            <div class="wf-panel-sub">Full GTM system from cold outreach to closed deal</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/LhYsbS4RP5MKWq3PordgGS"></iframe>
+        </div>
+      </div>
+      <div class="wf-panel" data-idx="1" style="display:none">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">Franchise Development</div>
+            <div class="wf-panel-sub">Full GTM system from prospect to signed franchisee</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/4ZxAu1SCnpoRusVpEXgjj1"></iframe>
+        </div>
+      </div>
+      <div class="wf-panel" data-idx="2" style="display:none">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">B2B SaaS Hybrid PLG + Sales Assist</div>
+            <div class="wf-panel-sub">Product-led growth combined with a high-touch sales layer</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/Lw2rDGzNaNFEDRmC2nk8Uf"></iframe>
+        </div>
+      </div>
+      <div class="wf-panel" data-idx="3" style="display:none">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">Commercial Insurance Brokerage</div>
+            <div class="wf-panel-sub">Full GTM system from prospect to bound policy</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/PWWHD64dEpqqNEABrbqQtG"></iframe>
+        </div>
+      </div>
+      <div class="wf-panel" data-idx="4" style="display:none">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">M&amp;A Advisory</div>
+            <div class="wf-panel-sub">Deal origination to closed transaction</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/WRwB4oVK9dHex4PH5oafw7"></iframe>
+        </div>
+      </div>
+      <div class="wf-panel" data-idx="5" style="display:none">
+        <div class="wf-panel-header">
+          <div>
+            <div class="wf-panel-title">Med Spa / Clinic</div>
+            <div class="wf-panel-sub">Patient acquisition to long-term retention</div>
+          </div>
+          <span class="tag orange">Live workflow</span>
+        </div>
+        <div style="border-radius:0 0 var(--radius) var(--radius);overflow:hidden">
+          <iframe style="border:none;display:block" width="100%" height="520" src="https://whimsical.com/embed/ABSDs7u7RMytgpfnfKjfoY"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What I Build -->
+<section id="build">
+  <div class="container">
+    <div class="build-layout reveal">
+      <div class="build-text">
+        <div class="section-label">What I build</div>
+        <h2 class="section-title" style="margin-top:12px">One revenue engine.</h2>
+        <p style="margin-top:20px;font-size:15px;color:var(--text-2);line-height:1.8;max-width:460px">I design, strategize and connect the six core GTM workflows: <strong style="color:var(--text)">Demand Generation, Lead Management, Sales Pipeline, Onboarding, Retention,</strong> and <strong style="color:var(--text)">Revenue Reporting</strong> into one unified system.</p>
+
+        <div class="wf-loop-labels">
+          <div class="wf-label"><span class="wf-label-dot"></span>Demand Generation</div>
+          <div class="wf-label"><span class="wf-label-dot"></span>Lead Management</div>
+          <div class="wf-label"><span class="wf-label-dot"></span>Sales Pipeline</div>
+          <div class="wf-label"><span class="wf-label-dot"></span>Onboarding</div>
+          <div class="wf-label"><span class="wf-label-dot"></span>Retention</div>
+          <div class="wf-label"><span class="wf-label-dot"></span>Revenue Reporting</div>
+        </div>
+      </div>
+
+      <!-- Animated loop diagram -->
+      <div class="build-anim">
+        <div class="gtm-canvas-wrap">
+          <canvas id="gtm-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- How I Deploy -->
+<section id="process" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Execution</div>
+      <h2 class="section-title">How I Deploy Revenue Systems</h2>
+    </div>
+
+    <!-- Timeline -->
+    <div class="tl-wrap reveal">
+      <div class="tl-track">
+        <div class="tl-node active" data-phase="0">
+          <div class="tl-dot"></div>
+          <div class="tl-lbl">Day 1</div>
+        </div>
+        <div class="tl-line"><div class="tl-line-fill"></div></div>
+        <div class="tl-node" data-phase="1">
+          <div class="tl-dot"></div>
+          <div class="tl-lbl">Day 30</div>
+        </div>
+        <div class="tl-line"><div class="tl-line-fill"></div></div>
+        <div class="tl-node" data-phase="2">
+          <div class="tl-dot"></div>
+          <div class="tl-lbl">Day 60</div>
+        </div>
+        <div class="tl-line"><div class="tl-line-fill"></div></div>
+        <div class="tl-node" data-phase="3">
+          <div class="tl-dot"></div>
+          <div class="tl-lbl">Day 90</div>
+        </div>
+        <div class="tl-line"><div class="tl-line-fill"></div></div>
+        <div class="tl-node" data-phase="4">
+          <div class="tl-dot"></div>
+          <div class="tl-lbl">Scale</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase cards -->
+    <div class="phase-grid reveal">
+      <div class="phase-card active" data-phase="0">
+        <span class="phase-range">Day 1–30</span>
+        <div class="phase-title">Map and Fix Reality</div>
+        <div class="phase-output">Usable pipeline, not raw data</div>
+        <ul class="phase-bullets">
+          <li>CRM becomes single source of truth</li>
+          <li>ICP and TAM defined and locked</li>
+          <li>Deliverability stabilized</li>
+          <li>First bottleneck identified and removed</li>
+        </ul>
+      </div>
+      <div class="phase-card" data-phase="1">
+        <span class="phase-range">Day 31–60</span>
+        <div class="phase-title">Build Intelligence Layer</div>
+        <div class="phase-output">System prioritizes who matters</div>
+        <ul class="phase-bullets">
+          <li>Data sources unified across CRM, enrichment, intent</li>
+          <li>Signal-based scoring deployed</li>
+          <li>Lifecycle definitions locked</li>
+          <li>AI generates contextual outreach</li>
+        </ul>
+      </div>
+      <div class="phase-card" data-phase="2">
+        <span class="phase-range">Day 61–90</span>
+        <div class="phase-title">Launch Execution Engine</div>
+        <div class="phase-output">Pipeline moves without manual work</div>
+        <ul class="phase-bullets">
+          <li>Automated routing and workflows live</li>
+          <li>Human-in-the-loop applied where it matters</li>
+          <li>Outreach and follow-ups run continuously</li>
+          <li>Dashboards track revenue, not activity</li>
+        </ul>
+      </div>
+      <div class="phase-card" data-phase="3">
+        <span class="phase-range">Beyond 90</span>
+        <div class="phase-title">Scale and Remove Friction</div>
+        <div class="phase-output">Compounding revenue engine</div>
+        <ul class="phase-bullets">
+          <li>Systems simplified, not stacked</li>
+          <li>Monthly iteration cycles</li>
+          <li>Movement toward autonomous GTM</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- About -->
+<section id="about" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="about-layout reveal">
+      <div>
+        <div class="section-label">About</div>
+        <h2 class="about-name">Jonathan Bernhard Göllner</h2>
+        <p class="about-text">Since 2023 building revenue systems for companies as a solopreneur through my agency <strong style="color:var(--text);font-weight:600">LeadLegend</strong>. I operate at the intersection of strategy, data architecture, and AI automation to deploy GTM systems that compound over time.</p>
+        <p class="about-text" style="margin-top:16px">Based in Europe. Available for full-time, fractional, and contract roles globally.</p>
+      </div>
+      <div>
+        <div class="about-links">
+          <a href="#build" class="about-link">What I Build <span class="about-link-arr">→</span></a>
+          <a href="#tools" class="about-link">Tools <span class="about-link-arr">→</span></a>
+          <a href="#workflows" class="about-link">Workflows <span class="about-link-arr">→</span></a>
+          <a href="#contact" class="about-link">Contact <span class="about-link-arr">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" style="border-top:1px solid var(--border);padding:72px 0;text-align:center">
+  <div class="container">
+    <a href="https://www.linkedin.com/in/jonathangoellner123/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:12px;padding:16px 32px;background:#0A66C2;color:#ffffff;font-size:15px;font-weight:600;letter-spacing:-.01em;text-decoration:none;transition:opacity .2s,transform .15s;box-shadow:0 4px 24px rgba(10,102,194,.3)" onmouseover="this.style.opacity='.88';this.style.transform='translateY(-2px)'" onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      Connect with me on LinkedIn
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">© 2025 Jonathan Bernhard Göllner · GTM Engineer</span>
+      <div class="footer-links">
+        <a href="https://linkedin.com/in/yourhandle" target="_blank">LinkedIn</a>
+        <a href="mailto:hello@yourdomain.com">Email</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Nav hidden until scroll ───────────────────────────────────────────────
+  (function(){
+    const navEl = document.querySelector('nav');
+    function syncNav(){
+      navEl.classList.toggle('nav-scrolled', window.scrollY > 80);
+    }
+    syncNav();
+    window.addEventListener('scroll', syncNav, { passive: true });
+  })();
+
+  // ── Timeline auto-progression ────────────────────────────────────────────
+  (function(){
+    const nodes  = document.querySelectorAll('.tl-node');
+    const cards  = document.querySelectorAll('.phase-card');
+    const lines  = document.querySelectorAll('.tl-line');
+    if(!nodes.length) return;
+
+    function activatePhase(idx){
+      nodes.forEach((n,i)  => n.classList.toggle('active', i <= idx));
+      cards.forEach((c,i)  => c.classList.toggle('active', i === idx));
+      lines.forEach((l,i)  => l.classList.toggle('filled', i < idx));
+    }
+
+    // Click on timeline node
+    nodes.forEach((n, i) => {
+      n.addEventListener('click', () => activatePhase(i));
+    });
+
+    // Auto-advance when section enters view
+    let interval;
+    const tlObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          let step = 0;
+          interval = setInterval(() => {
+            step = (step + 1) % nodes.length;
+            activatePhase(step);
+          }, 1800);
+        } else {
+          clearInterval(interval);
+          activatePhase(0);
+        }
+      });
+    }, { threshold: 0.3 });
+    const tlSection = document.querySelector('.tl-wrap');
+    if(tlSection) tlObs.observe(tlSection);
+  })();
+
+  // ── GTM morph: GTM ↔ Go To Market every 5s ────────────────────────────────
+  (function(){
+    const morph  = document.getElementById('gtm-morph');
+    if(!morph) return;
+    const abbr = morph.querySelector('.gtm-abbr');
+    const full = morph.querySelector('.gtm-full');
+
+    // Make full momentarily measurable
+    full.style.cssText = 'position:absolute;top:0;left:0;opacity:0;transform:none;pointer-events:none';
+    abbr.style.cssText = 'display:block;white-space:nowrap';
+
+    function measure(){
+      const aw = abbr.offsetWidth;
+      const fh = abbr.offsetHeight;
+      full.style.cssText = ''; // reset inline
+      morph.style.width  = aw + 'px';
+      morph.style.height = fh + 'px';
+      return { aw, fh };
+    }
+
+    let dims = measure();
+    window.addEventListener('resize', () => { dims = measure(); });
+
+    // Recalculate full width after fonts are ready
+    document.fonts.ready.then(() => { dims = measure(); });
+
+    let expanded = false;
+
+    function toggle(){
+      expanded = !expanded;
+      if(expanded){
+        // Measure full text width now (fonts loaded)
+        full.style.position = 'absolute';
+        full.style.opacity  = '0';
+        full.style.transform = 'none';
+        const fw = full.offsetWidth;
+        full.style.position = '';
+        full.style.opacity  = '';
+        full.style.transform = '';
+        morph.style.width = fw + 'px';
+        morph.classList.add('expanded');
+      } else {
+        morph.style.width = dims.aw + 'px';
+        morph.classList.remove('expanded');
+      }
+      setTimeout(toggle, 5000);
+    }
+
+    setTimeout(toggle, 5000);
+  })();
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(
+    es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }),
+    { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+  );
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Workflow tab switching
+  document.querySelectorAll('.wf-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.dataset.idx;
+      document.querySelectorAll('.wf-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.wf-panel').forEach(p => p.style.display = 'none');
+      btn.classList.add('active');
+      document.querySelector(`.wf-panel[data-idx="${idx}"]`).style.display = 'block';
+    });
+  });
+
+  // ── GTM Canvas Animation ─────────────────────────────────────────────────
+  (function(){
+    const canvas = document.getElementById('gtm-canvas');
+    if(!canvas) return;
+    const wrap = canvas.parentElement;
+    const DPR = window.devicePixelRatio || 1;
+
+    function resize(){
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      canvas.width  = w * DPR;
+      canvas.height = h * DPR;
+      canvas.style.width  = w + 'px';
+      canvas.style.height = h + 'px';
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const ctx = canvas.getContext('2d');
+
+    // Node definitions — hex ring
+    const ORANGE = '#FF8205';
+    const NODES = [
+      { label:'Demand Gen',       short:'Demand\nGen',       color:ORANGE },
+      { label:'Lead Mgmt',        short:'Lead\nMgmt',        color:ORANGE },
+      { label:'Sales Pipeline',   short:'Sales\nPipeline',   color:ORANGE },
+      { label:'Onboarding',       short:'Onboarding',        color:ORANGE },
+      { label:'Retention',        short:'Retention',         color:ORANGE },
+      { label:'Revenue Report',   short:'Revenue\nReport',   color:ORANGE },
+    ];
+    const N = NODES.length;
+
+    // Particles — one per edge, travelling the ring
+    const PARTICLES = Array.from({length:12}, (_, i) => ({
+      t: i / 12,           // position around the ring [0,1)
+      speed: 0.0018 + Math.random() * 0.0012,
+      size: 2.5 + Math.random() * 2,
+      nodeIdx: Math.floor(Math.random() * N),
+    }));
+
+    // Dot-grid state
+    const DOTS = [];
+    (function buildDots(){
+      const spacing = 28;
+      const cols = Math.ceil(400 / spacing) + 1;
+      const rows = Math.ceil(400 / spacing) + 1;
+      for(let r = 0; r < rows; r++){
+        for(let c = 0; c < cols; c++){
+          DOTS.push({ x: c * spacing, y: r * spacing, base: 0.08 + Math.random() * 0.07 });
+        }
+      }
+    })();
+
+    let raf;
+    let t0 = null;
+
+    function nodePos(i){
+      const W = canvas.width  / DPR;
+      const H = canvas.height / DPR;
+      const cx = W / 2, cy = H / 2;
+      const R  = Math.min(W, H) * 0.34;
+      const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+      return { x: cx + Math.cos(angle) * R, y: cy + Math.sin(angle) * R };
+    }
+
+    // Lerp between two node positions by progress p along that edge
+    function edgePos(p){
+      const total = p * N;
+      const fromIdx = Math.floor(total) % N;
+      const toIdx   = (fromIdx + 1) % N;
+      const frac    = total - Math.floor(total);
+      const a = nodePos(fromIdx);
+      const b = nodePos(toIdx);
+      // Slight arc — control point pushed outward
+      const mx = (a.x + b.x) / 2;
+      const my = (a.y + b.y) / 2;
+      const W = canvas.width / DPR, H = canvas.height / DPR;
+      const dx = mx - W/2, dy = my - H/2;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const arc  = 18;
+      const cx   = mx + (dx/dist) * arc;
+      const cy   = my + (dy/dist) * arc;
+      // Quadratic bezier
+      const t = frac;
+      const x = (1-t)*(1-t)*a.x + 2*(1-t)*t*cx + t*t*b.x;
+      const y = (1-t)*(1-t)*a.y + 2*(1-t)*t*cy + t*t*b.y;
+      // Color interpolation
+      const cA = NODES[fromIdx].color;
+      const cB = NODES[toIdx].color;
+      return { x, y, color: lerpHex(cA, cB, frac) };
+    }
+
+    function hexToRgb(h){
+      const v = parseInt(h.slice(1), 16);
+      return [(v>>16)&255,(v>>8)&255,v&255];
+    }
+    function lerpHex(a, b, t){
+      const ra=hexToRgb(a), rb=hexToRgb(b);
+      const r=Math.round(ra[0]+(rb[0]-ra[0])*t);
+      const g=Math.round(ra[1]+(rb[1]-ra[1])*t);
+      const bl=Math.round(ra[2]+(rb[2]-ra[2])*t);
+      return `rgb(${r},${g},${bl})`;
+    }
+
+    function drawDotGrid(elapsed){
+      DOTS.forEach(d => {
+        const pulse = d.base + 0.04 * Math.sin(elapsed * 0.0008 + d.x * 0.05 + d.y * 0.04);
+        ctx.beginPath();
+        ctx.arc(d.x * DPR, d.y * DPR, 1.2 * DPR, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(0,0,0,${pulse * 0.35})`;
+        ctx.fill();
+      });
+    }
+
+    function drawEdges(){
+      for(let i = 0; i < N; i++){
+        const a = nodePos(i);
+        const b = nodePos((i+1)%N);
+        const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+        const W = canvas.width/DPR, H = canvas.height/DPR;
+        const dx = mx-W/2, dy = my-H/2;
+        const dist = Math.sqrt(dx*dx+dy*dy)||1;
+        const arc = 18;
+        const cpx = mx+(dx/dist)*arc, cpy = my+(dy/dist)*arc;
+
+        ctx.save();
+        ctx.scale(DPR, DPR);
+        const grad = ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+        grad.addColorStop(0, NODES[i].color + '55');
+        grad.addColorStop(1, NODES[(i+1)%N].color + '55');
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.quadraticCurveTo(cpx, cpy, b.x, b.y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function drawNodes(elapsed){
+      ctx.save();
+      ctx.scale(DPR, DPR);
+      NODES.forEach((node, i) => {
+        const {x, y} = nodePos(i);
+        const R = 30;
+        const pulse = 1 + 0.03 * Math.sin(elapsed * 0.001 + i * 1.05);
+
+        // Outer glow
+        const glow = ctx.createRadialGradient(x,y,R*0.5,x,y,R*2.2*pulse);
+        glow.addColorStop(0, node.color + '28');
+        glow.addColorStop(1, node.color + '00');
+        ctx.beginPath();
+        ctx.arc(x, y, R*2.2*pulse, 0, Math.PI*2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        // Node circle — dark fill
+        ctx.beginPath();
+        ctx.arc(x, y, R*pulse, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+
+        // Colored ring
+        ctx.beginPath();
+        ctx.arc(x, y, R*pulse, 0, Math.PI*2);
+        ctx.strokeStyle = node.color;
+        ctx.lineWidth = 2;
+        ctx.shadowColor = node.color;
+        ctx.shadowBlur = 12;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Label text
+        const lines = node.short.split('\n');
+        ctx.fillStyle = '#0a0a0a';
+        ctx.font = `600 ${lines.length > 1 ? 8.5 : 9.5}px Inter,sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        if(lines.length === 1){
+          ctx.fillText(lines[0], x, y);
+        } else {
+          ctx.fillText(lines[0], x, y - 5.5);
+          ctx.fillText(lines[1], x, y + 5.5);
+        }
+      });
+      ctx.restore();
+    }
+
+    function drawParticles(elapsed){
+      ctx.save();
+      ctx.scale(DPR, DPR);
+      PARTICLES.forEach(p => {
+        p.t += p.speed;
+        if(p.t >= 1) p.t -= 1;
+        const pos = edgePos(p.t);
+
+        // Trailing glow
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, p.size * 2.5, 0, Math.PI*2);
+        ctx.fillStyle = pos.color.replace('rgb','rgba').replace(')',',0.12)');
+        ctx.fill();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, p.size, 0, Math.PI*2);
+        ctx.fillStyle = pos.color;
+        ctx.shadowColor = pos.color;
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+      ctx.restore();
+    }
+
+    function drawCenterLogo(elapsed){
+      ctx.save();
+      ctx.scale(DPR, DPR);
+      const W = canvas.width/DPR, H = canvas.height/DPR;
+      const cx = W/2, cy = H/2;
+      const pulse = 0.95 + 0.05 * Math.sin(elapsed * 0.0012);
+
+      // Soft center glow
+      const cg = ctx.createRadialGradient(cx,cy,0,cx,cy,42*pulse);
+      cg.addColorStop(0,'rgba(255,130,5,0.1)');
+      cg.addColorStop(1,'rgba(255,130,5,0)');
+      ctx.beginPath();
+      ctx.arc(cx, cy, 42*pulse, 0, Math.PI*2);
+      ctx.fillStyle = cg;
+      ctx.fill();
+
+      // Center circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, 22*pulse, 0, Math.PI*2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,130,5,0.3)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // "GTM" label
+      ctx.fillStyle = '#FF8205';
+      ctx.font = '700 9px Inter,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('GTM', cx, cy);
+      ctx.restore();
+    }
+
+    function frame(ts){
+      if(!t0) t0 = ts;
+      const elapsed = ts - t0;
+
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      ctx.fillStyle = '#faf9f7';
+      ctx.fillRect(0, 0, W, H);
+
+      drawDotGrid(elapsed);
+      drawEdges();
+      drawParticles(elapsed);
+      drawNodes(elapsed);
+      drawCenterLogo(elapsed);
+
+      raf = requestAnimationFrame(frame);
+    }
+
+    // Start when canvas enters view
+    const canvasObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(e.isIntersecting && !raf){
+          raf = requestAnimationFrame(frame);
+        } else if(!e.isIntersecting && raf){
+          cancelAnimationFrame(raf);
+          raf = null;
+          t0 = null;
+        }
+      });
+    }, { threshold: 0.1 });
+    canvasObs.observe(canvas);
+  })();
+  // ── End GTM Canvas ───────────────────────────────────────────────────────
+</script>
+</body>
+</html>
