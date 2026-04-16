@@ -738,13 +738,14 @@
         <p class="about-text">Since 2023 building revenue systems for companies as a solopreneur through my agency <strong style="color:var(--text);font-weight:600">LeadLegend</strong>. I operate at the intersection of strategy, data architecture, and AI automation to deploy GTM systems that compound over time.</p>
         <p class="about-text" style="margin-top:16px">Based in Europe. Available for full-time, fractional, and contract roles globally.</p>
       </div>
-      <div>
-        <div class="about-links">
-          <a href="#build" class="about-link">What I Build <span class="about-link-arr">→</span></a>
-          <a href="#tools" class="about-link">Tools <span class="about-link-arr">→</span></a>
-          <a href="#workflows" class="about-link">Workflows <span class="about-link-arr">→</span></a>
-          <a href="#contact" class="about-link">Contact <span class="about-link-arr">→</span></a>
-        </div>
+      <div style="display:flex;align-items:flex-start;padding-top:8px">
+        <a id="cv-btn" href="jonathan-gollner-cv.pdf" download="GTM CV Jonathan Gollner 2026.pdf"
+          style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--text);color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;transition:opacity .2s"
+          onmouseenter="this.style.opacity='.82'" onmouseleave="this.style.opacity='1'"
+          onclick="setTimeout(function(){ var b=document.getElementById('cv-btn'); b.removeAttribute('href'); b.removeAttribute('download'); b.style.background='#2a2a2a'; b.style.cursor='default'; b.innerHTML='<svg width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.2\'><polyline points=\'20 6 9 17 4 12\'></polyline></svg> you just downloaded Jonathan\'s Resume'; }, 400)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          See my Resume / CV
+        </a>
       </div>
     </div>
   </div>
